@@ -82,17 +82,35 @@ def update_worksheet(data,worksheet_name):
     worksheet.append_row(data)
     print(f"Successfully updated {worksheet_name} worksheet")
 
+
+def get_last_five_sales_entries():
+    """
+    Get last five entries, add and divide by 5 to get the mean. 
+    Increase mean for each by 10% and round up to the nearest integer.
+    """
+    sales = SHEET.worksheet('sales')
+    columns = []
+    for ind in range(1,7):
+        column = sales.col_values(ind)
+        columns.append(column[-5:])
+    
+    return columns
+
+
 def main():
     """Run all program functions"""
     data = get_sales_data()
     sales_data = [int(num) for num in data]
     update_worksheet(sales_data,'sales')
     calculate_surplus_data(sales_data)
+    get_last_five_sales_entries()
     
 
 
 
 print("Welcome to Love Sandwiches Data Automation\n")
 main()
+
+sales_columns = get_last_five_sales_entries()
 
 
