@@ -51,16 +51,6 @@ def validate_data(values):
     return True
 
 
-def update_sales_worksheet(data):
-    """
-    Update sales data in sales worksheet.
-    """
-    print("updating sales worksheet with new sales data...\n")
-    sales_worksheet = SHEET.worksheet('sales')
-    sales_worksheet.append_row(data)
-    print('Sales worksheet updated successfully\n')
-
-
 def calculate_surplus_data(sales_row):
     """
     Compare sales with stock and calculate the surplus for each item type.
@@ -80,24 +70,23 @@ def calculate_surplus_data(sales_row):
         surplus = stock - sales
         surplus_data.append(surplus)
     print(f"Surplus Data: {surplus_data}")
-    update_surplus_worksheet(surplus_data)
+    update_worksheet(surplus_data,'surplus')
 
 
-def update_surplus_worksheet(data):
+def update_worksheet(data,worksheet_name):
     """
-    Update surplus worksheet with surplus data.
+    Update any worksheet with new row of data
     """
-    print("updating surplus worksheet with new surplus data...\n")
-    surplus_worksheet = SHEET.worksheet('surplus')
-    surplus_worksheet.append_row(data)
-    print('Surplus worksheet updated successfully\n')
-
+    print(f"Updating {worksheet_name} worksheet...")
+    worksheet = SHEET.worksheet(worksheet_name)
+    worksheet.append_row(data)
+    print(f"Successfully updated {worksheet_name} worksheet")
 
 def main():
     """Run all program functions"""
     data = get_sales_data()
     sales_data = [int(num) for num in data]
-    update_sales_worksheet(sales_data)
+    update_worksheet(sales_data,'sales')
     calculate_surplus_data(sales_data)
     
 
